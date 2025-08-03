@@ -12,16 +12,16 @@ public class VerificationCodeStore {
     private final Map<String, CodeEntryDto> codeMap = new ConcurrentHashMap<>();
 
     public void saveCode(String email, String code) {
-        codeMap.put(email, new CodeEntryDto(code,System.currentTimeMillis()));
+        codeMap.put(email, new CodeEntryDto(code, System.currentTimeMillis()));
     }
 
     public boolean isCodeValid(String email, String code) {
         CodeEntryDto entry = codeMap.get(email);
-        if (entry==null){
+        if (entry == null) {
             return false;
         }
         long now = System.currentTimeMillis();
-        boolean notExpired = (now-entry.getTimestamp() <=EXPIRATION_TIME_MS);
+        boolean notExpired = (now - entry.getTimestamp() <= EXPIRATION_TIME_MS);
         return notExpired && entry.getCode().equals(code);
     }
 

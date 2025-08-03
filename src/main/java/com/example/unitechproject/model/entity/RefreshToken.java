@@ -15,12 +15,12 @@ import java.time.Instant;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class  RefreshToken {
+public abstract class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String token;
 
     @Column(nullable = false)

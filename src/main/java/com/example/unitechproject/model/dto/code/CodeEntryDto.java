@@ -13,6 +13,5 @@ import lombok.RequiredArgsConstructor;
 public class CodeEntryDto {
 
     private String code;
-
     private final long timestamp;
 }

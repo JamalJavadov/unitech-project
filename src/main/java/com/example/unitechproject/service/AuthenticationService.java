@@ -1,10 +1,10 @@
 package com.example.unitechproject.service;
 
 
-import com.example.unitechproject.exception.VerifyCodeFailedException;
 import com.example.unitechproject.exception.CodeExpireException;
-import com.example.unitechproject.model.dto.auth.AuthenticationRequestDto;
 import com.example.unitechproject.exception.EmailNotFound;
+import com.example.unitechproject.exception.VerifyCodeFailedException;
+import com.example.unitechproject.model.dto.auth.AuthenticationRequestDto;
 import com.example.unitechproject.model.dto.auth.AuthenticationResponseDto;
 import com.example.unitechproject.model.dto.code.AuthCodeVerficationDto;
 import com.example.unitechproject.model.dto.userDto.UserRequestDto;
@@ -31,23 +31,19 @@ public class AuthenticationService {
     private final UserRepository userRepository;
 
     public String userRegister(UserRequestDto request) {
-        var user = User.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .build();
+        var user = User.builder().fullName(request.getFullName()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role(Role.USER).build();
         userRepository.save(user);
         return "Register Successfully";
     }
+
     public String authenticateSendCode(AuthenticationRequestDto request) {
         Optional<User> user = userRepository.findByEmail(request.getEmail());
-        if (user.isPresent()){
-        String code = String.valueOf(new Random().nextInt(900000)+100000);
-        verificationCodeStore.saveCode(request.getEmail(),code);
-        emailService.sendVerificationCode(request.getEmail(),code);
-        return "Verification Code Send";
-        }else {
+        if (user.isPresent()) {
+            String code = String.valueOf(new Random().nextInt(900000) + 100000);
+            verificationCodeStore.saveCode(request.getEmail(), code);
+            emailService.sendVerificationCode(request.getEmail(), code);
+            return "Verification Code Send";
+        } else {
             throw new EmailNotFound("Not Found");
         }
     }
@@ -56,12 +52,12 @@ public class AuthenticationService {
         if (verificationCodeStore.isCodeValid(authCodeVerfication.getEmail(), authCodeVerfication.getCode())) {
             verificationCodeStore.removeCode(authCodeVerfication.getEmail());
             Optional<User> user = userRepository.findByEmail(authCodeVerfication.getEmail());
-            if (user.isPresent()){
+            if (user.isPresent()) {
                 userRepository.save(user.get());
                 var jwtToken = jwtService.generatedToken(user.get());
                 String refreshToken = refreshTokenService.createRefreshToken(user.get()).getToken();
                 return AuthenticationResponseDto.builder().token(jwtToken).refreshToken(refreshToken).build();
-            }else {
+            } else {
                 throw new VerifyCodeFailedException("Email or Code is wrong");
             }
         } else {
