@@ -32,7 +32,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             User newUser = new User();
             newUser.setEmail(email);
             newUser.setFullName((String) attributes.get("given_name"));
-            newUser.setPassword("outh");// burani deyis
+            newUser.setPassword("outh");
             newUser.setRole(Role.USER);
             userRepository.save(newUser);
         }

@@ -12,7 +12,7 @@ public interface UserMapper {
     User toEntity(UserRequestDto userRequestDto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "userName",source = "fullName")
+    @Mapping(target = "userName", source = "fullName")
     UserResponseDto toDto(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

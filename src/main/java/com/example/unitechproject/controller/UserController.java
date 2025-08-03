@@ -19,13 +19,13 @@ public class UserController {
 
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/update")
-    public ResponseEntity<UserResponseDto> update(@RequestBody @Valid UserUpdateDto userUpdateDto, Authentication authentication){
-        return ResponseEntity.ok(userService.update(userUpdateDto,authentication.getName()));
+    public ResponseEntity<UserResponseDto> update(@RequestBody @Valid UserUpdateDto userUpdateDto, Authentication authentication) {
+        return ResponseEntity.ok(userService.update(userUpdateDto, authentication.getName()));
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/profile")
-    public ResponseEntity<UserResponseDto> getProfile(Authentication authentication){
+    public ResponseEntity<UserResponseDto> getProfile(Authentication authentication) {
         return ResponseEntity.ok(userService.profile(authentication.getName()));
     }
 

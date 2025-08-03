@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface RefreshTokenRepository extends JpaRepository<UserRefreshToken,Long> {
+public interface RefreshTokenRepository extends JpaRepository<UserRefreshToken, Long> {
     Optional<UserRefreshToken> findRefreshTokenByToken(String token);
 
     @Modifying
